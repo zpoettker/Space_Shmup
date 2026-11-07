@@ -11,21 +11,29 @@ public class Main : MonoBehaviour
     public float enemySpawnPerSecond = 0.5f;
     public float enemyInsetDefault = 1.5f;
     public float gameRestartDelay = 2;
+    public int pointsPerSpawnIncrease = 5000;
+    public float spawnIncreasePercent = 0.2f;
 
     private BoundsCheck bndCheck;
+
+    float CurrentSpawnRate()
+    {
+        int steps = pointsPerSpawnIncrease > 0 ? ScoreManager.SCORE / pointsPerSpawnIncrease : 0;
+        return enemySpawnPerSecond * Mathf.Pow(1f + spawnIncreasePercent, steps);
+    }
 
     void Awake()
     {
         S = this;
         bndCheck = GetComponent<BoundsCheck>();
-        Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
+        Invoke(nameof(SpawnEnemy), 1f / CurrentSpawnRate());
     }
 
     public void SpawnEnemy()
     {
         if (!spawnEnemies || prefabEnemies.Length == 0)
         {
-            Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
+            Invoke(nameof(SpawnEnemy), 1f / CurrentSpawnRate());
             return;
         }
 
@@ -45,7 +53,7 @@ public class Main : MonoBehaviour
         pos.y = bndCheck.camHeight + enemyInset;
         go.transform.position = pos;
 
-        Invoke(nameof(SpawnEnemy), 1f / enemySpawnPerSecond);
+        Invoke(nameof(SpawnEnemy), 1f / CurrentSpawnRate());
     }
 
     void DelayedRestart()

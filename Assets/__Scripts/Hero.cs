@@ -75,6 +75,11 @@ public class Hero : MonoBehaviour
         }
     }
 
+    public void AddShieldLevel()
+    {
+        shieldLevel++;
+    }
+
     public float shieldLevel
     {
         get { return _shieldLevel; }

@@ -82,6 +82,7 @@ public class Enemy_4 : Enemy
 
                 if (thisShield.isActive) return;
 
+                ScoreManager.ADD_SCORE(score);
                 Destroy(gameObject);
             }
         }

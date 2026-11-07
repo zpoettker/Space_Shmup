@@ -45,6 +45,7 @@ public class Enemy : MonoBehaviour
         if (otherGO.GetComponent<ProjectileHero>() != null)
         {
             Destroy(otherGO);
+            ScoreManager.ADD_SCORE(score);
             Destroy(gameObject);
         }
         else
